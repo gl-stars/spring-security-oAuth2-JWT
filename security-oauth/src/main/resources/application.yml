@@ -3,7 +3,7 @@ server:
   servlet:
     context-path: /auth # 应用名 localhost:8090/auth
 
-
+# 数据源是没有用到，只是将数据库相关的依赖都引入了，不配置数据源是会报错的。
 spring:
   # 数据源配置
   datasource:
