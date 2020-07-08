@@ -11,5 +11,10 @@
 
     <artifactId>security-user</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.core</groupId>
+            <artifactId>security-oauth</artifactId>
+        </dependency>
+    </dependencies>
 </project>
