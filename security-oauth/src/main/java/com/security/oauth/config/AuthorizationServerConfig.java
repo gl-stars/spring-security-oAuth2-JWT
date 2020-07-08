@@ -2,10 +2,12 @@ package com.security.oauth.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 
 /**
  * 认证配置类
@@ -22,6 +24,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    /**
+     * 引入AuthenticationManager 实例
+     */
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
 
     /**
      * 配置被允许访问此认证服务器的客户端详情信息
@@ -55,4 +64,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 // 客户端回调地址
                 .redirectUris("https://www.baidu.com/");
     }
+
+    /**
+     * 关于认证服务器端点配置
+     * @param endpoints
+     * @throws Exception
+     */
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        // password 要这个 AuthenticationManager 实例
+        endpoints.authenticationManager(authenticationManager);
+    }
+
+
 }
