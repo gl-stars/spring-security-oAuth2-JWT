@@ -1,5 +1,6 @@
 package com.security.oauth.config;
 
+import com.security.oauth.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,6 +31,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    /**
+     * 用户认证
+     */
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService ;
 
 
     /**
@@ -74,6 +81,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         // password 要这个 AuthenticationManager 实例
         endpoints.authenticationManager(authenticationManager);
+        // 刷新令牌获取新的令牌是需要
+        endpoints.userDetailsService(customUserDetailsService);
     }
 
 
