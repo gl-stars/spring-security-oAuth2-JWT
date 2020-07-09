@@ -2,6 +2,7 @@ package com.security.oauth.config;
 
 import com.security.oauth.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,7 +10,11 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+
+import javax.sql.DataSource;
 
 /**
  * 认证配置类
@@ -45,7 +50,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private TokenStore tokenStore ;
 
+    @Autowired
+    private DataSource dataSource;
 
+    /**
+     * 授权码管理策略
+     *
+     * @return
+     */
+    @Bean
+    public AuthorizationCodeServices jdbcAuthorizationCodeServices() {
+        return new JdbcAuthorizationCodeServices(dataSource);
+    }
     /**
      * 配置被允许访问此认证服务器的客户端详情信息
      * 方式1：内存方式管理
@@ -92,8 +108,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints.userDetailsService(customUserDetailsService);
         // 令牌的管理方式，并指定JWT转换器 accessTokenConverter
         endpoints.tokenStore(tokenStore) ;
-
+        // 授权码管理策略，针对授权码模式有效，会将授权码放到 auth_code 表，授权后就会删除它
+        endpoints.authorizationCodeServices(jdbcAuthorizationCodeServices());
     }
-
-
 }
