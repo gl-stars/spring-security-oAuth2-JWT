@@ -44,6 +44,6 @@ public class TestAuthServerApplication {
 
         System.out.println(encode);
 
-//        System.out.println(passwordEncoder.encode("123456"));
+        System.out.println(passwordEncoder.encode("123456"));
     }
 }
