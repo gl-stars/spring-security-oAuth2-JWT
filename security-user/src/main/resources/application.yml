@@ -20,3 +20,9 @@ spring:
     timeBetweenEvictionRunsMillis: 60000
     minEvictableIdleTimeMillis: 300000
     validationQuery: SELECT 1 FROM DUAL
+  redis:
+    host: www.it307.top
+    port: 6379
+    password: mcp2RliHg
+    lettuce:
+      shutdown-timeout: 5000 # 超时时间
