@@ -10,6 +10,8 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -50,6 +52,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private TokenStore tokenStore ;
 
+    /**
+     * 注入数据源
+     */
     @Autowired
     private DataSource dataSource;
 
@@ -62,6 +67,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public AuthorizationCodeServices jdbcAuthorizationCodeServices() {
         return new JdbcAuthorizationCodeServices(dataSource);
     }
+
+    /**
+     *  创建jdbcClientDetailsService实例，并注入spring容器中，不要少了@Bean
+     *  注意：访问修饰符不要写错了。
+     * @return
+     */
+    @Bean
+    public ClientDetailsService jdbcClientDetailsService(){
+        return new JdbcClientDetailsService(dataSource);
+    }
+
     /**
      * 配置被允许访问此认证服务器的客户端详情信息
      * 方式1：内存方式管理
@@ -78,7 +94,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         // 使用内存方式
-        clients.inMemory()
+     /*   clients.inMemory()
                 // 客户端id
                 .withClient("ssoj-pc")
                 // 客户端密码，要加密,不然一直要求登录, 获取不到令牌, 而且一定不能被泄露
@@ -92,7 +108,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 // false 跳转到授权页面手动点击授权，true 不用手动授权，直接响应授权码，
                 .autoApprove(false)
                 // 客户端回调地址
-                .redirectUris("https://www.baidu.com/");
+                .redirectUris("https://www.baidu.com/");*/
+        clients.withClientDetails(jdbcClientDetailsService());
     }
 
     /**

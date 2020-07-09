@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -18,6 +19,15 @@ import java.util.List;
 @SpringBootTest
 public class TestAuthServerApplication {
 
+    /**
+     * 在 SpringSecurityBean 添加到容器了
+     */
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    /**
+     * 获取权限信息
+     */
     @Autowired(required = false)
     SysPermissionService sysPermissionService;
 
@@ -26,5 +36,14 @@ public class TestAuthServerApplication {
 
         List<SysPermission> list = sysPermissionService.list();
         System.out.println(list);
+    }
+
+    @Test
+    public void testPasswordencoder(){
+        String encode = passwordEncoder.encode("ssoj-secret");
+
+        System.out.println(encode);
+
+//        System.out.println(passwordEncoder.encode("123456"));
     }
 }
