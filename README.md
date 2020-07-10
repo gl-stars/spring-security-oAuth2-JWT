@@ -17,24 +17,35 @@
 | v6     | 新增JDBC管理令牌和授权码保存到数据中                       |
 | v7     | 将客户端数据保存到数据库中，配置令牌端点安全策略和检查令牌 |
 | v8     | 新增RBAC动态认证账户                                       |
+| v9     | jwt对称和非对称加密                                        |
 
 
 
-# 二、基于RBAC动态认证账户
+# 二、jwt对称加密
 
-功能实现参考：[https://github.com/gl-stars/springSecurity-example/blob/master/sse-doc/3%E3%80%81%E9%85%8D%E7%BD%AE%E8%AE%A4%E8%AF%81%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AD%96%E7%95%A5.md#%E5%85%AD%E5%9F%BA%E4%BA%8Erbac%E5%8A%A8%E6%80%81%E8%AE%A4%E8%AF%81%E8%B4%A6%E6%88%B7](https://github.com/gl-stars/springSecurity-example/blob/master/sse-doc/3%E3%80%81%E9%85%8D%E7%BD%AE%E8%AE%A4%E8%AF%81%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AD%96%E7%95%A5.md#%E5%85%AD%E5%9F%BA%E4%BA%8Erbac%E5%8A%A8%E6%80%81%E8%AE%A4%E8%AF%81%E8%B4%A6%E6%88%B7)
+功能实现：[https://github.com/gl-stars/springSecurity-example/blob/master/sse-doc/6%E3%80%81JWT%E7%AE%A1%E7%90%86%E4%BB%A4%E7%89%8C.md#%E4%B8%89%E8%AE%A4%E8%AF%81%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%9E%E7%8E%B0jwt%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86](https://github.com/gl-stars/springSecurity-example/blob/master/sse-doc/6%E3%80%81JWT%E7%AE%A1%E7%90%86%E4%BB%A4%E7%89%8C.md#%E4%B8%89%E8%AE%A4%E8%AF%81%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%9E%E7%8E%B0jwt%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86)
 
-## 2.1、测试
+## 测试：
 
-## 2.1、测试
+请求地址
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200709090514365.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
+```http
+localhost:8090/auth/oauth/token
+```
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200709172203734.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
+- 获取token
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200709172242517.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
+随便使用一个获取令牌的模式，看一下令牌是否变成jwt中token的样式，并做token检查。我就使用密码模式。
 
-## postman测试关键词
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200710091257598.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200710090957258.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200710091146216.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020071009121835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
+
+关键词
 
 ```
 grant_type
@@ -42,4 +53,22 @@ password
 username
 password
 ```
+
+- 校验token
+
+请求地址：
+
+```http
+http://localhost:8090/auth/oauth/check_token
+```
+
+关键词：
+
+```
+token
+```
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200710091538172.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200710091650604.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
 
