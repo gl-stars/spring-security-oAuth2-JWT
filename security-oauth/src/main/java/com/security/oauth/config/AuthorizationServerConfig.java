@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
@@ -65,6 +66,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
+
+    /**
+     * 认证错误处理类
+     *
+     */
+    @Autowired
+    private WebResponseExceptionTranslator webResponseExceptionTranslator;
 
     /**
      * 授权码管理策略
@@ -127,14 +135,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        // password 要这个 AuthenticationManager 实例
-        endpoints.authenticationManager(authenticationManager);
-        // 刷新令牌获取新的令牌是需要
-        endpoints.userDetailsService(customUserDetailsService);
-        // 令牌的管理方式，并指定JWT转换器 accessTokenConverter
-        endpoints.tokenStore(tokenStore).accessTokenConverter(jwtAccessTokenConverter) ;
-        // 授权码管理策略，针对授权码模式有效，会将授权码放到 auth_code 表，授权后就会删除它
-        endpoints.authorizationCodeServices(jdbcAuthorizationCodeServices());
+        endpoints
+                // password 要这个 AuthenticationManager 实例
+                .authenticationManager(authenticationManager)
+                // 刷新令牌获取新的令牌是需要
+                .userDetailsService(customUserDetailsService)
+                // 令牌的管理方式，并指定JWT转换器 accessTokenConverter
+                .tokenStore(tokenStore).accessTokenConverter(jwtAccessTokenConverter)
+                // 授权码管理策略，针对授权码模式有效，会将授权码放到 auth_code 表，授权后就会删除它
+                .authorizationCodeServices(jdbcAuthorizationCodeServices())
+                // 认证错误处理类
+                .exceptionTranslator(webResponseExceptionTranslator);
     }
 
     /**
