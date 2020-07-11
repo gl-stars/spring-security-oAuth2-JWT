@@ -10,11 +10,12 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 
 /**
  * Redis 管理令牌
+ * <p>{@{@code @ConditionalOnProperty}使用{@linkplain AuthJwtTokenStore}</p>
  * @version : 1.0.0
  * @author: GL
  * @create: 2020年 07月 11日 16:55
  **/
-@ConditionalOnProperty(prefix = "ssoj.oauth2.token.store", name = "type", havingValue = "redis")
+@ConditionalOnProperty(prefix = "ssoj.security.auth", name = "type", havingValue = "redis")
 public class AuthRedisTokenStore {
 
     /**

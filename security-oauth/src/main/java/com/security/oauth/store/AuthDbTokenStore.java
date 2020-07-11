@@ -11,12 +11,13 @@ import javax.sql.DataSource;
 
 /**
  * 数据库管理临牌
+ * <p>{@{@code @ConditionalOnProperty}使用{@linkplain AuthJwtTokenStore}</p>
  * @version : 1.0.0
  * @author: GL
  * @create: 2020年 07月 11日 16:20
  **/
 @Configuration
-@ConditionalOnProperty(prefix = "ssoj.oauth2.token.store", name = "type", havingValue = "db")
+@ConditionalOnProperty(prefix = "ssoj.security.auth", name = "type", havingValue = "db")
 public class AuthDbTokenStore {
 
     /**

@@ -1,5 +1,6 @@
 package com.security.user;
 
+import com.security.oauth.properties.SecurityProperties;
 import com.security.user.model.SysPermission;
 import com.security.user.service.SysPermissionService;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.sound.midi.Soundbank;
 import java.util.List;
 
 /**
@@ -31,6 +33,9 @@ public class TestAuthServerApplication {
     @Autowired(required = false)
     SysPermissionService sysPermissionService;
 
+    @Autowired(required = false)
+    SecurityProperties properties ;
+
     @Test
     public void findPermission(){
 
@@ -45,5 +50,10 @@ public class TestAuthServerApplication {
         System.out.println(encode);
 
         System.out.println(passwordEncoder.encode("123456"));
+    }
+
+    @Test
+    public void findPropert(){
+        System.out.println(properties.getClient().getResourceId());
     }
 }

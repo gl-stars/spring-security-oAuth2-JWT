@@ -28,8 +28,9 @@ spring:
       shutdown-timeout: 5000 # 超时时间
 
 ## 配置认证方式
-#ssoj:
-#  oauth2:
-#    token:
-#      store:
-#        type: authJwt
+ssoj:
+  security:
+    auth:
+      type: db
+    client:
+      resourceId: product-server # 客户端id

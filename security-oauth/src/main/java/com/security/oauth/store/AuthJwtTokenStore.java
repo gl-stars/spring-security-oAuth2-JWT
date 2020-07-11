@@ -29,7 +29,7 @@ import java.io.IOException;
  **/
 @Slf4j
 @Configuration
-@ConditionalOnProperty(prefix = "ssoj.oauth2.token.store", name = "type", havingValue = "authJwt",matchIfMissing = true)
+@ConditionalOnProperty(prefix = "ssoj.security.auth", name = "type", havingValue = "authJwt",matchIfMissing = true)
 public class AuthJwtTokenStore {
 
     /**
