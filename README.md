@@ -36,3 +36,37 @@
 `Beta`：相对Alpha有很大的改动，还在需要大量的测试。
 
 `RELEASE`：最终版本。
+
+
+
+# 三、将jar发布到本地仓库
+
+## 3.1、发行讲解
+
+命令
+
+```shell
+mvn install:install-file -Dfile=E:\security-oauth-1.0.0.Beta.jar -DgroupId=com.core -DartifactId=security-oauth -Dversion=1.0.0.Beta -Dpackaging=jar
+```
+
+> -Dfile  ：需要发布到本地仓库的jar包全绝对路径
+>
+> -DgroupId：jar包发行主体域名
+>
+> -DartifactId：产品分包
+>
+> -Dversion：版本号
+>
+> -Dpackaging：文件类型
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200711195917249.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
+
+在本地仓库检查是否存在
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200711200140815.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
+
+
+
+## 3.2、这个jar编写pom.xml依赖注意
+
+如果这个jar包的工程没有打成jar放到本地仓库或者私服引用，那么其他功能模块这个jar，这个jar应用的所有依赖都可以使用的。但是打成jar之后，放到本地仓库，在引入项目的这种方式，这个jar的依赖的那些依赖是不能使用。例如：在这个自定义的jar中依赖了链接数据库的所有东西，但是将这个jar引入进来之后，链接数据库的那些依赖只能在自定义这个jar中使用，不能再其他工程中使用了。

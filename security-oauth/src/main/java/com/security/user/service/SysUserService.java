@@ -1,5 +1,6 @@
 package com.security.user.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.security.user.model.SysUser;
 
 /**
@@ -8,7 +9,7 @@ import com.security.user.model.SysUser;
  * @author: stars
  * @date 2020年 07月 09日 11:50
  **/
-public interface SysUserService {
+public interface SysUserService extends IService<SysUser> {
 
     /**
      * 通过用户名查询
