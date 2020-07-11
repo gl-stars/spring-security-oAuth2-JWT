@@ -1,4 +1,4 @@
-package com.security.handler;
+package com.security.oauth.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.security.util.Result;

@@ -1,10 +1,14 @@
 package com.security.oauth.config;
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * 扫描将指定类的实例注入spring中
+ * 扫描将指定类的实例注入spring中，手动实例化类到spring容器中。
  * <p>注意启动类并不在本工程当中，所以该工程额很多类是不能被spring扫描到，所以需要手动指定。{@code @ComponentScan({"com.security.oauth","com.security.user"})}
  * {@code @SpringBootApplication}注解只能扫描当前包及其子包，所以该工程的@Configuration,@Service ,@Component等等
  * 这些注解就扫描不到了。</p>
@@ -17,4 +21,27 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan({"com.security.oauth","com.security.user"})
 @MapperScan("com.security.user.mapper")
 public class AuthServerConfig {
+
+    /***
+     * 加载中文的认证提示信息
+     * <p>当我们输入认证信息时，后台给我们的提示默认是英文的，但是我们想要更换成中文的。</p>
+     * @return
+     */
+    @Bean
+    public ReloadableResourceBundleMessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new
+                ReloadableResourceBundleMessageSource();
+        //.properties 不要加到后面
+        messageSource.setBasename("classpath:org/springframework/security/messages_zh_CN");
+        return messageSource;
+    }
+
+    /**
+     * 加密方式
+     * @return
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 }

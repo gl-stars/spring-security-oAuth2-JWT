@@ -1,62 +1,40 @@
-package com.security.oauth.config;
+package com.security.oauth.store;
 
 import com.security.oauth.converter.CustomUserAuthenticationConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 
 /**
- * Token管理工具
- * @author: stars
- * @date 2020年 07月 09日 13:47
+ * 认证服务器使用 JWT RSA 非对称加密令牌
+ * <p>{@code @ConditionalOnProperty}注解使用讲解。<pre>
+ *     prefix: 配置的前缀
+ *     name: 属性名
+ *     havingValue: 属性值
+ *     matchIfMissing：如果不指定，是否为默认。默认是false，不指定，true指定。所以，如果没有配置，默认加载该类。
+ * </pre></p>
+ * @version : 1.0.0
+ * @author: GL
+ * @create: 2020年 07月 11日 16:25
  **/
 @Slf4j
 @Configuration
-public class TokenConfig {
-    /**
-     * Redis 管理令牌
-     * 添加redis 依赖后, 容器就会有 RedisConnectionFactory 实例
-     */
-    @Autowired
-    private RedisConnectionFactory redisConnectionFactory;
-
-    /**
-     * 注入JDBC数据源
-     */
-    @Autowired
-    private DataSource dataSource ;
+@ConditionalOnProperty(prefix = "ssoj.oauth2.token.store", name = "type", havingValue = "authJwt",matchIfMissing = true)
+public class AuthJwtTokenStore {
 
     /**
      * 指定令牌管理方式
-     * <b>不要忘记@Bean添加到容器中</b>
-     * @return
-     */
-   /* @Bean
-    public TokenStore tokenStore() {
-        // redis 管理令牌
-//        return new RedisTokenStore(redisConnectionFactory);
-        // 注入数据源
-//        return new JdbcTokenStore(dataSource);
-
-        // 使用jwt管理令牌
-        return new JwtTokenStore(jwtAccessTokenConverter());
-    }*/
-
-    /**
-     * 指定令牌管理方式
-     * <b>不要忘记@Bean添加到容器中</b>
+     * @param jwtAccessTokenConverter
      * @return
      */
     @Bean
@@ -65,8 +43,9 @@ public class TokenConfig {
     }
 
     /**
-     * 配置公钥和私钥，本来公钥应该是要放到资源服务器里面的，但是我不打算制作微服务的，所以就好的系统都是直接集成这个工程，而不是同伙网络连接
-     * 所以我将公钥和私钥的详细都放在一起了。
+     * 令牌转换器
+     * <p>配置公钥和私钥，本来公钥应该是要放到资源服务器里面的，但是我不打算制作微服务的，所以就好的系统都是直接集成这个工程，而不是同伙网络连接
+     * 所以我将公钥和私钥的详细都放在一起了。</p>
      * @return
      */
     @Bean
@@ -86,7 +65,7 @@ public class TokenConfig {
         try {
             publicKey = IOUtils.toString(resource.getInputStream(), "UTF-8");
         } catch (IOException e) {
-            log.info("Caused by: 获取公钥失败"+TokenConfig.class);
+            log.info("Caused by: 获取公钥失败"+ AuthJwtTokenStore.class);
             e.printStackTrace();
         }
         converter.setVerifierKey(publicKey);

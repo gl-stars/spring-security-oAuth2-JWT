@@ -1,4 +1,4 @@
-package com.security.handler;
+package com.security.oauth.handler;
 
 import com.security.util.AuthUtils;
 import lombok.extern.slf4j.Slf4j;

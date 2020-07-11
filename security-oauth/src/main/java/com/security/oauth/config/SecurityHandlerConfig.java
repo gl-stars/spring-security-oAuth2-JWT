@@ -1,6 +1,6 @@
 package com.security.oauth.config;
 
-import com.security.handler.OauthLogoutHandler;
+import com.security.oauth.handler.OauthLogoutHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

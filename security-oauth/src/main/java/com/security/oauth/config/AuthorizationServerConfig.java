@@ -63,8 +63,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     /***
      * 注入jwt转换器
+     * <p>如果不适用jwt认证方式，那么jwt转换器我们并没有注入容器，那么这里有获取不到实例。
+     * {@link com.security.oauth.store.AuthJwtTokenStore}</p>
      */
-    @Autowired
+    @Autowired(required = false)
     private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     /**
@@ -109,22 +111,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        // 使用内存方式
-     /*   clients.inMemory()
-                // 客户端id
-                .withClient("ssoj-pc")
-                // 客户端密码，要加密,不然一直要求登录, 获取不到令牌, 而且一定不能被泄露
-                .secret(passwordEncoder.encode("ssoj-secret"))
-                // 资源id, 如商品资源
-                .resourceIds("product-server")
-                // 授权类型, 可同时支持多种授权类型(authorization_code)表示授权码模式
-                .authorizedGrantTypes("authorization_code","password","implicit","client_credentials","refresh_token")
-                // 授权范围标识，哪部分资源可访问（all是标识，不是代表所有）
-                .scopes("all")
-                // false 跳转到授权页面手动点击授权，true 不用手动授权，直接响应授权码，
-                .autoApprove(false)
-                // 客户端回调地址
-                .redirectUris("https://www.baidu.com/");*/
         clients.withClientDetails(jdbcClientDetailsService());
     }
 
@@ -140,12 +126,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authenticationManager(authenticationManager)
                 // 刷新令牌获取新的令牌是需要
                 .userDetailsService(customUserDetailsService)
-                // 令牌的管理方式，并指定JWT转换器 accessTokenConverter
-                .tokenStore(tokenStore).accessTokenConverter(jwtAccessTokenConverter)
                 // 授权码管理策略，针对授权码模式有效，会将授权码放到 auth_code 表，授权后就会删除它
                 .authorizationCodeServices(jdbcAuthorizationCodeServices())
                 // 认证错误处理类
                 .exceptionTranslator(webResponseExceptionTranslator);
+        // 判断是否采用jwt令牌认证
+        if (jwtAccessTokenConverter !=null){
+            // 令牌的管理方式，并指定JWT转换器 accessTokenConverter
+            endpoints.tokenStore(tokenStore).accessTokenConverter(jwtAccessTokenConverter);
+        }
     }
 
     /**
