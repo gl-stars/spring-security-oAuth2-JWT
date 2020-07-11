@@ -43,7 +43,7 @@
 
 ## 3.1、发行讲解
 
-命令
+### 命令
 
 ```shell
 mvn install:install-file -Dfile=E:\security-oauth-1.0.0.Beta.jar -DgroupId=com.core -DartifactId=security-oauth -Dversion=1.0.0.Beta -Dpackaging=jar
@@ -64,6 +64,20 @@ mvn install:install-file -Dfile=E:\security-oauth-1.0.0.Beta.jar -DgroupId=com.c
 在本地仓库检查是否存在
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200711200140815.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
+
+### idea工具
+
+如果使用`Plugins`下面的`install`会报下面这个错误，说找不到这个打包插件。使用`lifecycle`下面的`install`问题得到解决。`lifecycle`是`maven`中一个十分完善的生命周期模型，所以使用`Lifecycle`中的`install`项目就会自动去`maven`仓库下载需要的包。
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200711222104441.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200711221650698.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODUzNDQ3,size_16,color_FFFFFF,t_70)
+
+
+
+```lua
+Failed to execute goal org.apache.maven.plugins:maven-install-plugin:2.4:install (default-cli) on project security-oauth: The packaging for this project did not assign a file to the build artifact
+```
 
 
 
