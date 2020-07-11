@@ -74,7 +74,7 @@
             <dependency>
                 <groupId>com.core</groupId>
                 <artifactId>security-oauth</artifactId>
-                <version>1.0.0.Beta</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!--mybatis-plus启动器-->
