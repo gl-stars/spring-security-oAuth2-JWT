@@ -20,6 +20,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>8</java.version>
+
         <spring-boot-dependencies.version>2.1.14.RELEASE</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>Greenwich.SR6</spring-cloud-dependencies.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
@@ -27,9 +28,11 @@
         <kaptcha.version>2.3.2</kaptcha.version>
         <commons-io.version>2.6</commons-io.version>
         <fastjson.version>1.2.62</fastjson.version>
+        <commons-collections4.version>4.2</commons-collections4.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
+        <hutool.version>5.1.4</hutool.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
     </properties>
-
-
 
     <dependencies>
         <dependency>
@@ -40,11 +43,36 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        <!-- IO 操作-->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
         </dependency>
+        <!-- 操作集合的工具类，参数考：https://blog.csdn.net/f641385712/article/details/84109098-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons-collections4.version}</version>
+        </dependency>
+        <!--工具包-->
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>${commons-collections.version}</version>
+        </dependency>
+        <!-- hutool java工具类库  -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${commons-beanutils.version}</version>
+        </dependency>
+        <!-- JSON操作 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>

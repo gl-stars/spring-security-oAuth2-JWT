@@ -8,8 +8,9 @@
         <version>1.0.0.Beta</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>security-user</artifactId>
+    <!-- 可以不用定义，默认就是jar -->
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
