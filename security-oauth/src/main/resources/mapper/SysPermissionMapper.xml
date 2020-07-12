@@ -1,10 +1,9 @@
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.security.user.mapper.SysPermissionMapper">
 
-<mapper namespace="com.smooth.user.mapper.SysPermissionMapper">
-
-    <select id="selectPermissionByUserId" resultType="com.smooth.user.model.SysPermission">
+    <select id="selectPermissionByUserId" resultType="com.security.user.model.SysPermission">
       SELECT DISTINCT
             p.id,
             p.parent_id,

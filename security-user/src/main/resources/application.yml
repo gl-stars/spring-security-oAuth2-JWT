@@ -3,14 +3,13 @@ server:
   servlet:
     context-path: /auth # 应用名 localhost:8090/auth
 
+
 spring:
-  application:
-    name: auth-server # Eureka页面显示
   # 数据源配置
   datasource:
     username: root
-    password: root
-    url: jdbc:mysql://127.0.0.1:3306/study-security?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+    password: mcpmysql
+    url: jdbc:mysql://www.it307.top/security-oauth2?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
     #mysql8版本以上驱动包指定新的驱动类
     driver-class-name: com.mysql.cj.jdbc.Driver
     #   数据源其他配置, 在 DruidConfig配置类中手动绑定
@@ -21,7 +20,17 @@ spring:
     timeBetweenEvictionRunsMillis: 60000
     minEvictableIdleTimeMillis: 300000
     validationQuery: SELECT 1 FROM DUAL
+  redis:
+    host: www.it307.top
+    port: 6379
+    password: mcp2RliHg
+    lettuce:
+      shutdown-timeout: 5000 # 超时时间
 
-
-
-
+## 配置认证方式
+ssoj:
+  security:
+    auth:
+      type: db
+    client:
+      resourceId: product-server # 客户端id
