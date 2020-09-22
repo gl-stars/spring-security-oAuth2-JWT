@@ -123,7 +123,7 @@ create table `sys_user` (
 -- ----------------------------
 -- records of sys_user
 -- ----------------------------
-insert into `sys_user` values ('9', 'admin', '$2a$10$rdkpvvafv8kqwvkjzwlrv.i.q.wz1w1pz0sfshn/55jnezfqv/ecm', '1', '1', '1', '1', '梦学谷', '16888888888', 'mengxuegu888@163.com', '2023-08-08 11:11:11', '2019-12-16 10:25:53');
+insert into `sys_user` values ('9', 'admin', '$2a$10$rdkpvvafv8kqwvkjzwlrv.i.q.wz1w1pz0sfshn/55jnezfqv/ecm', '1', '1', '1', '1', 'aa', '16888888888', 'mengxuegu888@163.com', '2023-08-08 11:11:11', '2019-12-16 10:25:53');
 insert into `sys_user` values ('10', 'test', '$2a$10$rdkpvvafv8kqwvkjzwlrv.i.q.wz1w1pz0sfshn/55jnezfqv/ecm', '1', '1', '1', '1', '测试', '16888886666', 'test11@qq.com', '2023-08-08 11:11:11', '2023-08-08 11:11:11');
 
 -- ----------------------------

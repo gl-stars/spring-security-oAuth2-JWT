@@ -8,7 +8,7 @@ spring:
   # 数据源配置
   datasource:
     username: root
-    password: mcpmysql
+    password: mallmysql
     url: jdbc:mysql://www.it307.top/security-oauth2?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
     #mysql8版本以上驱动包指定新的驱动类
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 /**
  * 资源服务器相关配置类
  * <p>@EnableResourceServer 标识为资源服务器，请求服务中的资源，就要带着token过来，找不到token或token是无效访问不了资源</p>
- * @Auther: 梦学谷 www.mengxuegu.com
+ * @Auther:
  */
 @Configuration
 @EnableResourceServer
